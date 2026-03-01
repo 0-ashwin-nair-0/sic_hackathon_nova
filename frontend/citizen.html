@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart City - Citizen Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/citizen.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="citizen-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-city"></i>
+                    <span>SmartCity AI - Citizen Portal</span>
+                </div>
+                <nav class="nav-menu">
+                    <a href="index.html" class="nav-link">Back to Home</a>
+                    <a href="#home" class="nav-link active">Home</a>
+                    <a href="#report" class="nav-link">Report Issue</a>
+                    <a href="#dustbins" class="nav-link">Find Dustbins</a>
+                    <a href="#score" class="nav-link">Cleanliness Score</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Welcome to Smart City Portal</h1>
+                <p>Help keep our city clean and green. Report issues, find waste disposal points, and track cleanliness scores.</p>
+                <div class="hero-actions">
+                    <button class="btn btn-primary" onclick="scrollToSection('report')">
+                        <i class="fas fa-flag"></i> Report Issue
+                    </button>
+                    <button class="btn btn-secondary" onclick="scrollToSection('dustbins')">
+                        <i class="fas fa-map-marker-alt"></i> Find Dustbins
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-recycle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="totalWasteCollected">--</div>
+                        <div class="stat-label">Tons Collected</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="issuesResolved">--</div>
+                        <div class="stat-label">Issues Resolved</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="activeCitizens">--</div>
+                        <div class="stat-label">Active Citizens</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="cleanlinessRating">--</div>
+                        <div class="stat-label">Cleanliness Rating</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Report Issue Section -->
+    <section class="section" id="report">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-flag"></i> Report Issue</h2>
+                <p>Help us keep the city clean by reporting issues in your area</p>
+            </div>
+            <div class="report-form-container">
+                <form id="reportForm" class="report-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="issueType">Issue Type</label>
+                            <select id="issueType" required>
+                                <option value="">Select issue type</option>
+                                <option value="overflowing_bin">Overflowing Dustbin</option>
+                                <option value="illegal_dumping">Illegal Dumping</option>
+                                <option value="damaged_bin">Damaged Dustbin</option>
+                                <option value="missing_bin">Missing Dustbin</option>
+                                <option value="street_cleaning">Street Cleaning Required</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Location</label>
+                            <input type="text" id="location" placeholder="Enter location or area" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" rows="4" placeholder="Describe the issue in detail..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactName">Your Name</label>
+                        <input type="text" id="contactName" placeholder="Enter your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactPhone">Contact Number</label>
+                        <input type="tel" id="contactPhone" placeholder="Enter your phone number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="issueImage">Attach Image (Optional)</label>
+                        <div class="image-upload-area">
+                            <input type="file" id="issueImage" accept="image/*" class="image-file-input">
+                            <div class="image-upload-label">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Click to upload image or drag and drop</p>
+                                <span class="file-info">JPG, PNG or GIF (max 5MB)</span>
+                            </div>
+                            <div id="imagePreview" class="image-preview" style="display: none;">
+                                <img id="previewImg" src="" alt="Preview">
+                                <button type="button" class="remove-btn" onclick="removeImage()">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-large">
+                        <i class="fas fa-paper-plane"></i> Submit Report
+                    </button>
+                </form>
+                <div id="reportSuccess" class="success-message" style="display: none;">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Report Submitted Successfully!</h3>
+                    <p>Your report has been received. Our team will address it shortly. Reference ID: <strong id="reportId">--</strong></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Find Dustbins Section -->
+    <section class="section bg-light" id="dustbins">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-map-marker-alt"></i> Find Nearest Dustbin</h2>
+                <p>Locate waste disposal points near you</p>
+            </div>
+            <div class="dustbin-finder">
+                <div class="search-box">
+                    <input type="text" id="searchLocation" placeholder="Search by area or landmark...">
+                    <button class="btn btn-primary" onclick="searchDustbins()">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+                <div id="dustbinResults" class="dustbin-results">
+                    <!-- Results will be populated here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cleanliness Score Section -->
+    <section class="section" id="score">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-star"></i> Cleanliness Score</h2>
+                <p>Track cleanliness performance across different zones</p>
+            </div>
+            <div class="zone-scores" id="zoneScores">
+                <!-- Zone scores will be populated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Smart City</h3>
+                    <p>Building a cleaner, smarter tomorrow</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#report">Report Issue</a></li>
+                        <li><a href="#dustbins">Find Dustbins</a></li>
+                        <li><a href="#score">Cleanliness Score</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p><i class="fas fa-phone"></i> 1800-XXX-XXXX</p>
+                    <p><i class="fas fa-envelope"></i> support@smartcity.gov</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Admin Portal</h4>
+                    <a href="index.html" class="btn btn-small">
+                        <i class="fas fa-user-shield"></i> Admin Login
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Smart City. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/citizen.js"></script>
+</body>
+</html>

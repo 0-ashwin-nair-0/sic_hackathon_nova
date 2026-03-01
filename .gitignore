@@ -1,0 +1,97 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+.env
+.venv
+.venv-1/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Flask
+instance/
+.webassets-cache
+
+# Machine Learning Models (optional - uncomment if models are large)
+# *.pkl
+# *.h5
+# *.model
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environment variables (IMPORTANT: Never commit!)
+.env
+*.env
+!.env.example
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Uploads and temporary files
+backend/uploads/*.csv
+backend/uploads/*.xlsx
+backend/uploads/*.json
+!backend/uploads/.gitkeep
+
+# OS Files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Test files
+test_*.py
+check_server.py
+list_routes.py
+
+# Git
+.git/
+.gitattributes
+
+# Backup files
+*.bak
+*.backup
+*.old
+*~
+
+# Compiled files
+*.pyc
+*.pyo

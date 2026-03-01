@@ -1,0 +1,18 @@
+[
+  {
+    "id": "d2ad4e18-a512-482e-ac0e-e5faf3d57f30",
+    "name": "Ashwin Nair",
+    "email": "ashwinn229@gmail.com",
+    "role": "citizen",
+    "password_hash": "scrypt:32768:8:1$ef68SYDrC32m8T2E$ed89864508aeab071800f32334d4929cc6a09bf18ca3e2a13a28a2f10eb50fb59efb9444c6fc18a49aa1b06fea2fe7f9b9b155b88dda1a8e105ea7a4d342e617",
+    "created_at": "2026-03-01T13:31:29.803107"
+  },
+  {
+    "id": "7261ad64-245b-4b76-b6e9-07882b241a16",
+    "name": "neha jagtap",
+    "email": "nehajagtap1307@gmail.com",
+    "role": "citizen",
+    "password_hash": "scrypt:32768:8:1$KoLKXKP6OI2AFUh1$56f920395b63dcc0040bd2a5294082da7a6b6dd9a837f00811b3b6a69ab8fd02f0a670ca08735b28e0ed78265936c71b6cbd75605a0482745f9e83dbe35edc13",
+    "created_at": "2026-03-01T13:48:36.911461"
+  }
+]

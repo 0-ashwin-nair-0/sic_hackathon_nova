@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart City ICCC - Resource Optimization System</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/digital_twin.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="iccc-container">
+        
+        <!-- Header -->
+        <header class="iccc-header">
+            <div class="header-left">
+                <i class="fas fa-city header-icon"></i>
+                <h1>SMART CITY ICCC</h1>
+                <span class="subtitle">Resource Optimization System</span>
+            </div>
+            <div class="header-center">
+                <div class="city-time" id="cityTime"></div>
+            </div>
+            <div class="header-right">
+                <div class="status-indicator" id="systemStatus">
+                    <span class="status-dot"></span>
+                    <span>All Systems Operational</span>
+                </div>
+                <button class="simulation-btn" id="simulationBtn">
+                    <i class="fas fa-flask"></i> Simulation Mode
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Dashboard Area -->
+        <main class="dashboard-main">
+            
+            <!-- Live KPI Cards Section -->
+            <section class="kpi-section">
+                <div class="kpi-card" id="aqiCard">
+                    <div class="kpi-icon">
+                        <i class="fas fa-wind"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>Air Quality Index</h3>
+                        <div class="kpi-value" id="aqiValue">--</div>
+                        <div class="kpi-trend" id="aqiTrend">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>Loading...</span>
+                        </div>
+                        <div class="kpi-category" id="aqiCategory">--</div>
+                    </div>
+                </div>
+
+                <div class="kpi-card" id="waterCard">
+                    <div class="kpi-icon">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>Water Availability</h3>
+                        <div class="kpi-value" id="waterValue">--</div>
+                        <div class="kpi-trend" id="waterTrend">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>Loading...</span>
+                        </div>
+                        <div class="kpi-status" id="waterStatus">--</div>
+                    </div>
+                </div>
+
+                <div class="kpi-card" id="electricityCard">
+                    <div class="kpi-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>Power Load</h3>
+                        <div class="kpi-value" id="electricityValue">--</div>
+                        <div class="kpi-trend" id="electricityTrend">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>Loading...</span>
+                        </div>
+                        <div class="kpi-status" id="electricityStatus">--</div>
+                    </div>
+                </div>
+
+                <div class="kpi-card" id="wasteCard">
+                    <div class="kpi-icon">
+                        <i class="fas fa-recycle"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <h3>Waste Status</h3>
+                        <div class="kpi-value" id="wasteValue">--</div>
+                        <div class="kpi-trend" id="wasteTrend">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Loading...</span>
+                        </div>
+                        <div class="kpi-status" id="wasteStatus">--</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Digital Twin & Control Section -->
+            <section class="twin-control-section">
+                
+                <!-- Left Panel: Digital Twin -->
+                <div class="digital-twin-panel">
+                    <div class="panel-header">
+                        <h2><i class="fas fa-globe"></i> Digital Twin - City Overview</h2>
+                        <div class="twin-controls">
+                            <button class="twin-mode-btn active" data-mode="water">
+                                <i class="fas fa-tint"></i> Water
+                            </button>
+                            <button class="twin-mode-btn" data-mode="electricity">
+                                <i class="fas fa-bolt"></i> Electricity
+                            </button>
+                            <button class="twin-mode-btn" data-mode="combined">
+                                <i class="fas fa-layer-group"></i> Combined
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- City Map with Zones -->
+                    <div class="city-map" id="cityMap">
+                        <div class="zone-container">
+                            <div class="city-zone" id="zone-a" data-zone="Zone A">
+                                <div class="zone-label">Zone A</div>
+                                <div class="zone-stats">
+                                    <div class="zone-stat-item" id="zone-a-stat">Loading...</div>
+                                </div>
+                            </div>
+                            <div class="city-zone" id="zone-b" data-zone="Zone B">
+                                <div class="zone-label">Zone B</div>
+                                <div class="zone-stats">
+                                    <div class="zone-stat-item" id="zone-b-stat">Loading...</div>
+                                </div>
+                            </div>
+                            <div class="city-zone" id="zone-c" data-zone="Zone C">
+                                <div class="zone-label">Zone C</div>
+                                <div class="zone-stats">
+                                    <div class="zone-stat-item" id="zone-c-stat">Loading...</div>
+                                </div>
+                            </div>
+                            <div class="city-zone" id="zone-d" data-zone="Zone D">
+                                <div class="zone-label">Zone D</div>
+                                <div class="zone-stats">
+                                    <div class="zone-stat-item" id="zone-d-stat">Loading...</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Transfer arrows (animated) -->
+                            <svg class="transfer-overlay" id="transferOverlay">
+                                <!-- Arrows will be dynamically added here -->
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Panel: AI Recommendations & Actions -->
+                <div class="ai-panel">
+                    <div class="panel-header">
+                        <h2><i class="fas fa-brain"></i> AI Recommendations</h2>
+                        <div class="ai-status">
+                            <span class="ai-status-dot"></span>
+                            <span>Active</span>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-recommendations" id="aiRecommendations">
+                        <!-- Dynamic recommendations will be added here -->
+                        <div class="ai-card">
+                            <div class="ai-card-header">
+                                <i class="fas fa-info-circle"></i>
+                                <span>Initializing AI Analysis...</span>
+                            </div>
+                            <p>Analyzing city-wide data across all modules...</p>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="quick-actions">
+                        <h3>Quick Actions</h3>
+                        <button class="action-btn" onclick="optimizeWater()">
+                            <i class="fas fa-sync"></i> Optimize Water
+                        </button>
+                        <button class="action-btn" onclick="optimizeElectricity()">
+                            <i class="fas fa-bolt"></i> Balance Load
+                        </button>
+                        <button class="action-btn" onclick="viewWasteConversion()">
+                            <i class="fas fa-recycle"></i> Waste Impact
+                        </button>
+                        <button class="action-btn emergency" onclick="activateEmergency()">
+                            <i class="fas fa-ambulance"></i> Emergency Mode
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Module Details Section (Tabs) -->
+            <section class="module-tabs-section">
+                <div class="tabs-header">
+                    <button class="tab-btn active" data-tab="citizen-reports">
+                        <i class="fas fa-flag"></i> Citizen Reports
+                    </button>
+                    <button class="tab-btn" data-tab="water">
+                        <i class="fas fa-tint"></i> Water Management
+                    </button>
+                    <button class="tab-btn" data-tab="electricity">
+                        <i class="fas fa-bolt"></i> Electricity
+                    </button>
+                    <button class="tab-btn" data-tab="waste">
+                        <i class="fas fa-recycle"></i> Waste
+                    </button>
+                    <button class="tab-btn" data-tab="aqi">
+                        <i class="fas fa-wind"></i> Air Quality
+                    </button>
+                    <button class="tab-btn" data-tab="solutions">
+                        <i class="fas fa-lightbulb"></i> Solutions
+                    </button>
+                </div>
+
+                <div class="tabs-content">
+                    <!-- Citizen Reports Tab -->
+                    <div class="tab-panel active" id="citizen-reports-panel">
+                        <div class="citizen-reports-container">
+                            <div class="reports-stats">
+                                <div class="stat-card stat-total">
+                                    <div class="stat-icon">📊</div>
+                                    <div class="stat-content">
+                                        <div class="stat-label">Total Reports</div>
+                                        <div class="stat-value" id="totalReports">0</div>
+                                    </div>
+                                </div>
+                                <div class="stat-card stat-unresolved">
+                                    <div class="stat-icon">⏳</div>
+                                    <div class="stat-content">
+                                        <div class="stat-label">Unresolved</div>
+                                        <div class="stat-value" id="unresolvedReports">0</div>
+                                    </div>
+                                </div>
+                                <div class="stat-card stat-priority">
+                                    <div class="stat-icon">⚡</div>
+                                    <div class="stat-content">
+                                        <div class="stat-label">High Priority</div>
+                                        <div class="stat-value" id="highPriorityReports">0</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="reports-list" id="citizenReportsList" style="margin-top: 2rem;">
+                                <!-- Reports will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Water Tab -->
+                    <div class="tab-panel" id="water-panel">
+                        <div class="module-grid">
+                            <div class="module-card">
+                                <h3>Zone Status</h3>
+                                <div id="waterZoneStatus" class="data-display"></div>
+                            </div>
+                            <div class="module-card">
+                                <h3>Demand Prediction</h3>
+                                <div id="waterPrediction" class="data-display"></div>
+                            </div>
+                            <div class="module-card">
+                                <h3>Leak Detection</h3>
+                                <div id="waterLeaks" class="data-display"></div>
+                            </div>
+                            <div class="module-card">
+                                <h3>Before vs After</h3>
+                                <canvas id="waterChart"></canvas>
+                            </div>
+                            <div class="module-card wide">
+                                <h3>Advanced Water Analytics</h3>
+                                <div class="water-explore-header">
+                                    <button class="action-btn" id="waterExploreBtn" onclick="toggleWaterExplorer()">
+                                        <i class="fas fa-search"></i> Explore More
+                                    </button>
+                                    <span class="water-explore-note">Upload CSV for demand forecasting, leak detection & reallocation</span>
+                                </div>
+
+                                <div id="waterExplorerContainer" class="water-explorer-container" style="display: none;">
+                                    <div class="water-upload-row">
+                                        <input type="file" id="waterCsvInput" accept=".csv" class="water-file-input" placeholder="Select CSV file" />
+                                        <button class="action-btn" onclick="generateWaterDetailedReport()">
+                                            <i class="fas fa-play"></i> Generate Report
+                                        </button>
+                                        <button class="action-btn secondary" onclick="downloadSampleCsv('water')">
+                                            <i class="fas fa-download"></i> Sample CSV
+                                        </button>
+                                    </div>
+                                    <div id="waterExploreStatus" class="water-explore-status"></div>
+
+                                    <div id="waterDetailedReport" class="water-detailed-report" style="display: none;">
+                                        <div id="waterPdfActions" class="report-download-actions"></div>
+                                        <div id="waterDetailKpis" class="water-detail-kpis"></div>
+
+                                        <div class="water-detail-grid">
+                                            <div class="module-card">
+                                                <h3>Tank Levels by Zone</h3>
+                                                <canvas id="waterDetailTankChart"></canvas>
+                                            </div>
+                                            <div class="module-card">
+                                                <h3>Usage Trend (24h)</h3>
+                                                <canvas id="waterDetailUsageChart"></canvas>
+                                            </div>
+                                        </div>
+
+                                        <div class="module-card wide">
+                                            <h3>Leak Alerts</h3>
+                                            <div id="waterLeakTable" class="data-display"></div>
+                                        </div>
+
+                                        <div class="module-card wide">
+                                            <h3>Risk Zones & Reallocation Plan</h3>
+                                            <div id="waterRiskReallocation" class="data-display"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Electricity Tab -->
+                    <div class="tab-panel" id="electricity-panel">
+                        <div class="module-grid">
+                            <div class="module-card">
+                                <h3>Zone Load Status</h3>
+                                <div id="electricityZoneStatus" class="data-display"></div>
+                            </div>
+                            <div class="module-card">
+                                <h3>Load Prediction</h3>
+                                <div id="electricityPrediction" class="data-display"></div>
+                            </div>
+                            <div class="module-card">
+                                <h3>Renewable Generation</h3>
+                                <div id="electricityRenewable" class="data-display"></div>
+                            </div>
+                            <div class="module-card">
+                                <h3>Load Distribution</h3>
+                                <canvas id="electricityChart"></canvas>
+                            </div>
+                            <div class="module-card wide">
+                                <h3>Advanced Electricity Optimization</h3>
+                                <div class="electricity-explore-header">
+                                    <button class="action-btn" id="electricityExploreBtn" onclick="toggleElectricityExplorer()">
+                                        <i class="fas fa-search"></i> Explore More
+                                    </button>
+                                    <span class="electricity-explore-note">Upload CSV → predict overload risk → reallocate → popup approvals → backup → final utilization</span>
+                                </div>
+
+                                <div id="electricityExplorerContainer" class="electricity-explorer-container" style="display: none;">
+                                    <div class="electricity-upload-row">
+                                        <input type="file" id="electricityCsvInput" accept=".csv" class="electricity-file-input" placeholder="Select CSV file" />
+                                        <button class="action-btn" onclick="generateElectricityDetailedReport()">
+                                            <i class="fas fa-play"></i> Start Sequence
+                                        </button>
+                                        <button class="action-btn secondary" onclick="downloadSampleCsv('electricity')">
+                                            <i class="fas fa-download"></i> Sample CSV
+                                        </button>
+                                    </div>
+                                    <div id="electricityExploreStatus" class="electricity-explore-status"></div>
+
+                                    <div id="electricityDetailedReport" class="electricity-detailed-report" style="display: none;">
+                                        <div id="electricityPdfActions" class="report-download-actions"></div>
+                                        <div id="electricityDetailKpis" class="electricity-detail-kpis"></div>
+
+                                        <div class="electricity-detail-grid">
+                                            <div class="module-card">
+                                                <h3>Zone Usage vs Capacity</h3>
+                                                <canvas id="electricityDetailUsageChart"></canvas>
+                                            </div>
+                                            <div class="module-card">
+                                                <h3>Essential vs Non-Essential Load</h3>
+                                                <canvas id="electricityDetailRenewableChart"></canvas>
+                                            </div>
+                                        </div>
+
+                                        <div class="module-card wide">
+                                            <h3>Zone Need & AI Overload Prediction (Twin View)</h3>
+                                            <div id="electricityOverloadTable" class="data-display"></div>
+                                        </div>
+
+                                        <div class="module-card wide">
+                                            <h3>Step-by-Step Optimization Workflow</h3>
+                                            <div id="electricityOptimization" class="data-display"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Waste Tab -->
+                    <div class="tab-panel" id="waste-panel">
+                        <div class="module-grid">
+                            <div class="module-card wide">
+                                <h3>Bin Status Map</h3>
+                                <div id="wasteBinGrid" class="bin-grid"></div>
+                            </div>
+                            <div class="module-card">
+                                <h3>Waste-to-Energy Impact</h3>
+                                <div id="wasteConversion" class="impact-display"></div>
+                            </div>
+                            <div class="module-card wide">
+                                <h3>Detailed Waste Report</h3>
+                                <div class="waste-explore-header">
+                                    <button class="action-btn" id="wasteExploreBtn" onclick="toggleWasteExplorer()">
+                                        <i class="fas fa-search"></i> Explore More
+                                    </button>
+                                    <span class="waste-explore-note">Upload CSV to generate advanced Pune waste analysis</span>
+                                </div>
+
+                                <div id="wasteExplorerContainer" class="waste-explorer-container" style="display: none;">
+                                    <div class="waste-upload-row">
+                                        <input type="file" id="wasteCsvInput" accept=".csv" class="waste-file-input" placeholder="Select CSV file" />
+                                        <div class="waste-threshold-group">
+                                            <label for="wasteUrgencyThreshold" class="waste-threshold-label">Priority Threshold:</label>
+                                            <input type="number" id="wasteUrgencyThreshold" class="waste-threshold-input" min="10" max="100" value="60" title="Urgency score above this value marks zones as high priority for collection" />
+                                        </div>
+                                        <button class="action-btn" onclick="generateWasteDetailedReport()">
+                                            <i class="fas fa-play"></i> Generate Report
+                                        </button>
+                                        <button class="action-btn secondary" onclick="downloadSampleCsv('waste')">
+                                            <i class="fas fa-download"></i> Sample CSV
+                                        </button>
+                                    </div>
+                                    <div id="wasteExploreStatus" class="waste-explore-status"></div>
+
+                                    <div id="wasteDetailedReport" class="waste-detailed-report" style="display: none;">
+                                        <div id="wastePdfActions" class="report-download-actions"></div>
+                                        <div id="wasteDetailKpis" class="waste-detail-kpis"></div>
+
+                                        <div class="waste-detail-grid">
+                                            <div class="module-card">
+                                                <h3>Before vs After Optimization</h3>
+                                                <canvas id="wasteDetailComparisonChart"></canvas>
+                                            </div>
+                                            <div class="module-card">
+                                                <h3>Waste Distribution</h3>
+                                                <canvas id="wasteDetailDistributionChart"></canvas>
+                                            </div>
+                                        </div>
+
+                                        <div class="module-card wide">
+                                            <h3>Pune Waste Priority Map</h3>
+                                            <div id="wastePuneMap" class="waste-pune-map"></div>
+                                        </div>
+
+                                        <div class="module-card wide">
+                                            <h3>High Priority Zone Details</h3>
+                                            <div id="wastePriorityTable" class="data-display"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AQI Tab -->
+                    <div class="tab-panel" id="aqi-panel">
+                        <div class="module-grid">
+                            <div class="module-card">
+                                <h3>Zone AQI Levels</h3>
+                                <div id="aqiZoneStatus" class="data-display"></div>
+                            </div>
+                            <div class="module-card">
+                                <h3>Pollution Sources</h3>
+                                <div id="aqiSources" class="data-display"></div>
+                            </div>
+                            <div class="module-card">
+                                <h3>Mitigation Actions</h3>
+                                <div id="aqiMitigation" class="data-display"></div>
+                            </div>
+                            <div class="module-card">
+                                <h3>AQI Trend</h3>
+                                <canvas id="aqiChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Solutions Tab -->
+                    <div class="tab-panel" id="solutions-panel">
+                        <div class="solutions-container">
+                            <h2>Solution Comparison Engine</h2>
+                            <p class="solutions-intro">Compare multiple solutions based on production cost, maintenance, implementation time, environmental impact, and more.</p>
+                            
+                            <div class="solution-selector">
+                                <button class="solution-category-btn active" data-category="water">Water Solutions</button>
+                                <button class="solution-category-btn" data-category="electricity">Electricity Solutions</button>
+                                <button class="solution-category-btn" data-category="waste">Waste Solutions</button>
+                            </div>
+
+                            <div id="solutionComparison" class="solution-comparison">
+                                <!-- Dynamic solution comparison will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Simulation Modal -->
+        <div class="modal" id="simulationModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2><i class="fas fa-flask"></i> Run Simulation</h2>
+                    <button class="close-btn" onclick="closeSimulation()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Select a scenario to simulate:</p>
+                    <div class="scenario-grid">
+                        <button class="scenario-btn" onclick="runSimulation('heatwave')">
+                            <i class="fas fa-sun"></i>
+                            <span>Heatwave</span>
+                        </button>
+                        <button class="scenario-btn" onclick="runSimulation('festival')">
+                            <i class="fas fa-calendar-star"></i>
+                            <span>Festival Surge</span>
+                        </button>
+                        <button class="scenario-btn" onclick="runSimulation('power_spike')">
+                            <i class="fas fa-bolt"></i>
+                            <span>Power Spike</span>
+                        </button>
+                        <button class="scenario-btn" onclick="runSimulation('emergency')">
+                            <i class="fas fa-ambulance"></i>
+                            <span>Emergency</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Zone Detail Modal -->
+        <div class="modal" id="zoneModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="zoneModalTitle">Zone Details</h2>
+                    <button class="close-btn" onclick="closeZoneModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div id="zoneModalContent">
+                        <!-- Dynamic zone details will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <script src="js/main.js"></script>
+    <script src="js/digital_twin.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/simulation.js"></script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart City - Login</title>
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="auth-page">
+        <div class="auth-left">
+            <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+            <h1>Smart City Access Portal</h1>
+            <p id="roleDescription">Sign in to continue.</p>
+            <div class="role-badge" id="roleBadge">Citizen Access</div>
+        </div>
+
+        <div class="auth-card">
+            <h2 id="authTitle">Welcome</h2>
+            <p class="auth-subtitle" id="authSubtitle">Admin uses predefined login. Citizens can login or create account.</p>
+
+            <div class="auth-tabs">
+                <button id="loginTabBtn" class="auth-tab-btn active" type="button">Login</button>
+                <button id="signupTabBtn" class="auth-tab-btn" type="button">Create Account</button>
+            </div>
+
+            <form id="authForm" class="auth-form">
+                <div id="nameField" class="field" style="display:none;">
+                    <label for="nameInput">Full Name</label>
+                    <input id="nameInput" type="text" placeholder="Enter your full name">
+                </div>
+
+                <div class="field">
+                    <label for="emailInput">Email</label>
+                    <input id="emailInput" type="email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="field">
+                    <label for="passwordInput">Password</label>
+                    <input id="passwordInput" type="password" placeholder="Enter password" required>
+                </div>
+
+                <button id="submitBtn" type="submit" class="submit-btn">Login</button>
+            </form>
+
+            <p id="authMessage" class="auth-message"></p>
+        </div>
+    </div>
+
+    <script src="js/auth-page.js"></script>
+</body>
+</html>

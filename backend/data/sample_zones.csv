@@ -1,0 +1,9 @@
+Zone,City,Type,Current_Usage,Max_Capacity,NonEssential_Load,Essential_Load
+Zone-A,Mumbai,Residential,850,1000,150,850
+Zone-B,Mumbai,Commercial,1200,1000,300,700
+Zone-C,Mumbai,Industrial,950,1000,200,800
+Zone-D,Delhi,Residential,700,1000,180,820
+Zone-E,Delhi,Commercial,1100,900,250,650
+Zone-F,Delhi,Industrial,600,1000,150,850
+Zone-G,Bangalore,Residential,800,1000,160,840
+Zone-H,Bangalore,Commercial,500,1000,120,880
